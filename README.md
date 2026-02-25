@@ -14,4 +14,4 @@ Currently Learning:
 - Machine Learning and AI
 
  ## Projects:
- 1. Power BI - MTA Customer Feedback Analysis (MTA Customer Feedback PowerBI.pdf)
+ 1. Power BI - MTA Customer Feedback Analysis ([MTA Customer Feedback PowerBI.pdf](https://github.com/shivangibhagurkar/animated-broccoli/blob/d78a7c236d761e038e52b5a40c640c3eee22533e/MTA%20Customer%20Feedback%20PowerBI.pdf))
