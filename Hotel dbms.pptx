@@ -1,5 +1,350 @@
-a ppt made about a small hotel database managemen system using SQL.
-pls download raw version to view ppt
-thank you
+create database hotel1;
+use hotel1;
+
+create table rooms (
+room_id int primary key,
+status varchar(255),
+rent int
+);
+insert into rooms values    (01, 'in use', 3000),
+							(02, 'vacant', 3000),
+                            (03, 'vacant', 4500),
+                            (04, ' in use', 4500);
+select * from rooms;
+alter table rooms add r_type varchar(255);
+desc rooms;
+							
+create table department (
+dept_id int primary key,
+d_head varchar(255),
+d_role varchar(255),
+contact int
+);
+insert into department values 
+(101, 'mark', 'manager', 12345),
+(102, 'jane', 'security', 67890),
+(103, 'john', 'front end', 23467),
+(104, 'sam', 'housekeeping', 35790);
+select * from department;
+
+create table staff (
+staff_id int primary key,
+name varchar(255),
+salary int,
+dept_id int
+);
+insert into staff values 
+(100, 'sammy', 4500, 101),
+(101, 'man', 3000, 104),
+(102,'john', 5000, 101),
+(103, 'amy',5500,101);
+select * from staff;
+-- adding foreign key dept_id to staff
+alter table staff
+add constraint c2
+foreign key (dept_id)
+references department (dept_id);
+
+
+create table guests (
+guest_id int primary key,
+room_id int,
+contact int 
+);
+insert into guests values
+(110, 02, 1234),
+(120, 04, 5678),
+(130, 03, 3456);
+
+select * from guests;
+
+alter table guests add g_name varchar(255);
+update guests set g_name = 'guest 1' where guest_id=110; 
+update guests set g_name = 'guest 2' where guest_id=120;
+update guests set g_name = 'guest 3' where guest_id=130;  
+
+select * from guests;
+-- adding foreign key
+alter table guests
+add constraint c1 
+foreign key (room_id)
+references rooms (room_id);
+
+create table reservations (
+res_id int primary key,
+room_id int,
+contact int 
+);
+
+-- adding guest_id
+alter table reservations add guest_id int;
+alter table reservations add staff_id int; 
+insert into reservations values 
+(112, 03, 5683),
+(113, 02, 4358),
+(115, 04, 3578);
+insert into reservations values 
+(116, 02, 3452, 120, 101);
+
+alter table reservations
+add constraint c3
+foreign key (room_id)
+references rooms (room_id);
+
+alter table guests add res_name varchar(255);
+alter table guests drop res_name;
+
+
+update reservations set guest_id = 110 where res_id=112;
+update reservations set guest_id = 120 where res_id=113;
+update reservations set guest_id = 130 where res_id=115;
+select * from reservations;
+update reservations set staff_id = 100 where res_id = 112;
+update reservations set staff_id = 101 where res_id = 113;
+update reservations set staff_id = 103 where res_id = 115;
+
+select * from staff;
+ select * from rooms;
+ -- room values new room_id 10, status, rent, r_type
+ insert into rooms (room_id, status, rent, r_type) values
+ (10,"in use", 3000, "standard"),
+ (11,"in use",3000,"standard"),
+ (12, "in use", 4500, "executive"),
+ (13,"in use",6000, "executive twin"),
+ (14,"vacant",6000,"executive twin"),
+ (15,"vacant", 5500,"executive twin"),
+ (16,"in use", 6000, "deluxe twin"),
+ (17,"vacant",6000,"deluxe twin");
+ insert into rooms (room_id, status, rent, r_type) values
+ (18,"vacant",5500,"deluxe"),
+ (19,"vacant",5500,"deluxe"),
+ (20,"in use",4500,"executive"),
+ (21,"vacant",5500,"deluxe twin"),
+ (22,"in use",6000,"deluxe"),
+ (23,"in use",5500, "executive twin"),
+ (24,"vacant",4000,"standard"),
+ (25,"in use", 4000,"standard twin");
+ select * from guests;
+ update guests set g_name = "Aiden Ross" where guest_id = 110;
+ update guests set g_name = "Priya Sharma" where guest_id = 120;
+update guests set g_name = "Luca Romano" where guest_id = 130;
+update guests set g_name = "Naomi Carter" where guest_id = 140;
+update guests set g_name = "Hiroshi Tanaka" where guest_id = 150;
+update guests set g_name = "Isabella Flores" where guest_id = 160;
+update guests set g_name = "Elias Novak" where guest_id = 170;
+-- inserting new guests 180
+insert into guests (guest_id, room_id, contact, g_name) values
+(180, 10, 45678, "Sofia Mendes"),
+(190, 11, 1267898, "Lila Kapoor"),
+(200, 12, 1267898, "Matteo Silva"),
+(210, 13, 1267898, "Felix Morgan"),
+(220, 14, 1267898, "Amara Joshi"),
+(230, 15, 1267898, "Viktor Petrov"),
+(340, 20, 1267898, "Serena Clarke"),
+(250, 25, 1267898, "Jonah Patel"),
+(260, 22, 1267898, "Aria Laurent"),
+(270, 23, 1267898, "Daniel Kim");
+select * from guests;
+select * from staff;
+alter table staff add contact varchar(255);
+update staff set contact = 3245245 where staff_id = 100;
+update staff set contact = 75434523 where staff_id = 101;
+update staff set contact = 679653 where staff_id = 102;
+update staff set contact = 25363232 where staff_id = 103;
+update staff set contact = 768564435 where staff_id = 104;
+update staff set contact = 43224342 where staff_id = 105;
+update staff set contact = 67856876 where staff_id = 106;
+update staff set contact = 45645765 where staff_id = 107;
+update staff set contact = 787654 where staff_id = 108;
+update staff set contact = 89097765 where staff_id = 109;
+update staff set contact = 78534242 where staff_id = 110;
+
+-- JOINS
+-- joining guests to rooms
+select * from guests g
+inner join rooms r 
+on g.room_id = r.room_id;
+
+-- joining staff to department
+select * from staff s
+right join department d
+on s.dept_id = d.dept_id;
+
+-- joining reservations to rooms
+select * from reservations r1
+left join rooms r2
+on r1.room_id = r2.room_id;
+
+-- reservations to staff ( who handled the booking )
+select r.res_id, r.res_name, s.name, g.guest_id, s.contact
+from reservations r 
+inner join guests g 
+on r.guest_id = g.guest_id
+inner join staff s 
+on r.staff_id = s.staff_id;
+
+
+-- subqueries
+-- 1. who has the most expensive room?
+SELECT g_name 
+FROM guests 
+WHERE guest_id IN (
+    SELECT guest_id 
+    FROM reservations 
+    WHERE room_id IN (
+        SELECT room_id 
+        FROM rooms 
+        WHERE rent = (SELECT MAX(rent) FROM Rooms)
+    )
+);
+
+-- staff with more than average salary
+SELECT name, salary
+FROM staff
+WHERE salary > (SELECT AVG(salary) FROM staff);
+
+-- rooms more expensive than average
+SELECT room_id, rent
+FROM rooms
+WHERE rent > (SELECT AVG(rent) FROM rooms);
+
+select avg(rent) from rooms;
+
+-- subquery How many rooms are available in a given hotel?
+SELECT COUNT(*) AS available_rooms
+FROM Rooms
+WHERE status = 'vacant';
+
+-- available vacant rooms grouped by type
+SELECT 
+    r_type, COUNT(*) AS available_count
+FROM
+    Rooms
+WHERE
+    status = 'vacant'
+GROUP BY r_type;
+
+-- grouped along with room numbers 
+SELECT 
+    r_type, GROUP_CONCAT(room_id) AS available_rooms
+FROM
+    Rooms
+WHERE
+    status = 'vacant'
+GROUP BY r_type;
+
+-- revenue per room type
+SELECT 
+    rm.r_type, SUM(rm.rent) AS total_revenue
+FROM
+    Reservations res
+        JOIN
+    Rooms rm ON res.room_id = rm.room_id
+GROUP BY rm.r_type
+ORDER BY total_revenue DESC;
+
+-- most expensive rooms
+SELECT g.g_name AS Guest, r.room_id, rm.r_type, rm.rent
+FROM Guests g
+JOIN Reservations r ON g.guest_id = r.guest_id
+JOIN Rooms rm ON r.room_id = rm.room_id
+WHERE rm.rent = (
+    SELECT MAX(rent)
+    FROM Rooms
+);
+
+use hotel1;
+-- staff_id, name , salary, dept_id 101,102,103,104
+insert into staff values 
+(104, 'ram', 4500,104);
+insert into staff values
+(105, 'pam', 3500, 103),
+(106, 'cam', 3000, 102),
+(107, 'tam', 2500, 103),
+(108, 'john', 5000,104),
+(109,'nine',4000,104),
+(110,'ten',3200, 104);
+select * from staff;
+
+insert into rooms values
+(05, 'in use', 5500),
+(06,'in use', 5500),
+(07,'vacant',6000),
+(08, 'in use', 6000),
+(09, 'in use', 6000);
+select * from rooms;
+-- updating add room types
+update rooms set r_type = "standard" where room_id = 01;
+update rooms set r_type = "standard" where room_id = 02;
+update rooms set r_type = "standard twin" where room_id = 03;
+update rooms set r_type = "executive" where room_id = 04;
+update rooms set r_type = "executive" where room_id = 05;
+update rooms set r_type = "deluxe" where room_id = 06;
+update rooms set r_type = "executive twin" where room_id = 07;
+update rooms set r_type = "deluxe twin" where room_id = 08;
+update rooms set r_type = "deluxe twin" where room_id = 09;
+
+-- guest_id, room_id, contact, g_name
+insert into guests values
+(140, 05, 4353, 'guest 4'),
+(150,06, 6893, 'guest 5'),
+(160, 07, 56798,'guest 6'),
+(170, 09, 45781,'guest 7');
+
+select * from guests;
+select * from reservations;
+select * from staff;
+-- res_id, room_id, contact, guest_id, staff_id
+insert into reservations values
+(117, 01, 1246, 120, 01),
+(118, 03, 67523, 130, 0);
+update reservations set staff_id = 100 where res_id=117;
+update reservations set staff_id = 103 where res_id=118;
+insert into reservations values 
+(119,06,7965,150,103),
+(120,07,43274, 160, 102);
+ -- adding more reservations
+ insert into reservations (res_id, room_id,contact,guest_id,staff_id )values 
+ (121,8,342352,190,110);
+ alter table reservations add res_name varchar(255);
+  insert into reservations (res_name, res_id, room_id,contact,guest_id,staff_id )values 
+  ("Maya Deshmukh", 122, 10, 534232, 190, 104);
+ insert into reservations (res_name, res_id, room_id,contact,guest_id,staff_id )values 
+  ("Julian Weber", 123, 11, 534232, 200, 107),
+  ("Anika Rao", 124, 12, 534232, 210, 105),
+  ("Nisha Verma", 125, 15, 534232, 220, 103),
+  ("Tobias Grant", 126, 13, 534232, 340, 102),
+  ("Elina Varga", 127, 10, 534232, 210, 102);
+  
+update reservations set res_name = "Rohan Iyer" where res_id = 112;
+update reservations set res_name = "Clara Dupont" where res_id = 113;
+update reservations set res_name = "Diego Alvarez" where res_id = 115; 
+update reservations set res_name = "Nathaniel Brooks" where res_id = 116;
+update reservations set res_name = "Hana Suzuki" where res_id = 117;
+update reservations set res_name = "Gabriel Torres" where res_id = 118;
+update reservations set res_name = "Stefan Ivanov" where res_id = 119;
+update reservations set res_name = "Evelyn Scott" where res_id = 120;
+update reservations set res_name = "Arjun Malhotra" where res_id = 121;
+  
+ -- booking handled by which staff
+ SELECT s.staff_id, s.name AS Staff, rm.room_id
+FROM Staff s
+JOIN Reservations r ON s.staff_id = r.staff_id
+JOIN Rooms rm ON r.room_id = rm.room_id;
+ 
+ -- join staff and bookings done
+ select s.staff_id, s.name as staff, r.room_id, r.staff_id
+ from staff s 
+ join reservations r 
+ on s.staff_id = r.staff_id;
+ 
+ 
+
+
+
+
+
+
+
 
 
