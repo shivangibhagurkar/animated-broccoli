@@ -1,5 +1,5 @@
 Hello ! 
-I'm  Shivangi Bhagurkar, an aspiring Data Analyst interested in turning data into meaningful insights and solving real-world problems through analytics and visualization.
+I'm  Shivangi, an aspiring Data Analyst interested in turning data into meaningful insights and solving real-world problems through analytics and visualization.
 
 Skills & Tools:
 - Python (Pandas, NumPy, Matplotlib)
